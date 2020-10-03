@@ -1,0 +1,71 @@
+<div>
+    <h1 align="center" style="text-align: center;"> Welcome {{user}}</h1>
+</div>
+<script src="js/hospital.js"> </script>
+<script>
+    function ClosePopUp() {
+        document.getElementById('id1').style.display = 'none'
+    }
+    function OpenPopUp() {
+        document.getElementById('id1').style.display = 'flex'
+    }
+    $(document).ready(function () {
+        $('#ADD').on('click', function () {
+            console.log('clicked add')
+            var id = $('#HId').val()
+            var name = $('#Name').val()
+            var addr = $('#Address').val()
+            var contact = $('#Contact').val()
+            var obj = {
+                HId: id,
+                Name: name,
+                Address: addr,
+                Contact: contact,
+            }
+            $.ajax({
+                type: 'POST',
+                url: 'table',
+                data: obj
+            })
+            ClosePopUp();
+        })
+    })
+</script>
+
+<div class='content'>
+    <div class='container'>
+        <table id="table1">
+            <tbody>
+                {{#each ele}}
+                <tr>
+                    <th> {{this.hId}} </th>
+                    <th> {{this.Name}} </th>
+                    <th> {{this.Location}} </th>
+                    <th> {{this.Address}} </th>
+                    <th> {{this.Contact}} </th>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div class='mybtn' style="color:cornsilk; position :relative; left: 50%; top: 50%;">
+        <button type="button" id="Add" onclick="OpenPopUp()"> ADD </button>
+    </div>
+</div>
+
+<div class="bg-modal" id="id1">
+    <div class="modal-content" id="id2">
+        <div class="close" onclick="ClosePopUp()">+</div>
+
+        <h4 style="margin-bottom: 20px;">
+            Add New hospital
+        </h4><br><br>
+        <form id="addHospital" method="POST">
+            <input id="HId" type="text" placeholder="Id">
+            <input id="Name" type="text" placeholder="Name">
+            <input id="Address" type="text" placeholder="Address">
+            <input id="Contact" type="text" placeholder="Contact">
+            <input id="ADD" type="button" value="add">
+        </form>
+    </div>
+</div>
